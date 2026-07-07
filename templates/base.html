@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}用户管理系统{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- ===== 导航栏 ===== -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">🔒 用户管理系统 V3</a>
+    <ul class="navbar-menu">
+      {% if session.get('username') %}
+        <li>👋 <strong>{{ session['username'] }}</strong></li>
+        <li><a href="/change_password" class="nav-link">修改密码</a></li>
+        <li><a href="/logout" class="nav-link nav-link-danger">退出</a></li>
+      {% else %}
+        <li><a href="/login" class="nav-link">登录</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <!-- ===== Flash 消息区域 ===== -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- ===== 主内容 ===== -->
+  <main class="main-container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ===== 页脚 ===== -->
+  <footer class="footer">
+    <p>用户管理系统 V3 — 整合 bcrypt + 验证码 + IP锁定 + CSRF + 审计日志</p>
+  </footer>
+
+</body>
+</html>

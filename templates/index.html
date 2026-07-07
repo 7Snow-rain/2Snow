@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}首页{% endblock %}
+
+{% block content %}
+  <div class="card">
+    {% if user %}
+      <h1 class="welcome-title">欢迎回来，{{ user['username'] | e }}！</h1>
+      <p class="welcome-sub">以下是您的账户信息：</p>
+      <ul class="info-list">
+        <li>
+          <span class="info-label">用户名</span>
+          <span class="info-value">{{ user['username'] | e }}</span>
+        </li>
+        <li>
+          <span class="info-label">密码</span>
+          <span class="info-value password-masked">••••••••</span>
+        </li>
+        <li>
+          <span class="info-label">邮箱</span>
+          <span class="info-value">{{ user['email'] | e }}</span>
+        </li>
+        <li>
+          <span class="info-label">手机</span>
+          <span class="info-value">{{ user['phone'] | e }}</span>
+        </li>
+        <li>
+          <span class="info-label">角色</span>
+          <span class="info-value">{{ user['role'] | e }}</span>
+        </li>
+        <li>
+          <span class="info-label">余额</span>
+          <span class="info-value">{{ user['balance'] }} 元</span>
+        </li>
+      </ul>
+      <div class="security-badge">
+        <span>🔐 已启用防护：bcrypt哈希 | 验证码 | IP锁定 | CSRF | 输入校验</span>
+      </div>
+      <div class="btn-group">
+        <a href="/change_password" class="btn btn-outline">修改密码</a>
+        <a href="/logout" class="btn btn-danger">退出登录</a>
+      </div>
+    {% else %}
+      <div class="guest-box">
+        <p>请先登录以查看账户信息</p>
+        <a href="/login" class="btn btn-primary" style="width:auto;padding:10px 40px;">前往登录</a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

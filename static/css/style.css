@@ -1,0 +1,391 @@
+/* ===== 全局 Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== 导航栏 ===== */
+.navbar {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  padding: 0 40px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+}
+
+.navbar-menu li {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+}
+
+.navbar-menu a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.navbar-menu a:hover {
+  opacity: 0.75;
+}
+
+.nav-link {
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.nav-link-danger {
+  border-color: rgba(255, 100, 100, 0.5);
+}
+
+/* ===== Flash 消息容器 ===== */
+.flash-container {
+  max-width: 600px;
+  margin: 20px auto 0;
+  padding: 0 20px;
+}
+
+/* ===== 主容器 ===== */
+.main-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 20px;
+  flex: 1;
+}
+
+/* ===== 卡片 ===== */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 36px 32px;
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #333;
+}
+
+/* ===== 表单 ===== */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.form-input.is-invalid {
+  border-color: #e74c3c;
+}
+
+/* ===== 验证码 ===== */
+.captcha-group {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.captcha-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.captcha-question {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  padding: 10px 16px;
+  background: #0d9488;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-family: "Courier New", monospace;
+}
+
+.captcha-input {
+  flex: 1;
+  min-width: 80px;
+}
+
+/* ===== 表单校验错误 ===== */
+.form-errors {
+  list-style: none;
+  margin-top: 6px;
+}
+
+.form-errors li {
+  font-size: 12px;
+  color: #e74c3c;
+  padding: 2px 0;
+}
+
+.form-errors li::before {
+  content: "⚠ ";
+}
+
+/* ===== 按钮 ===== */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  color: #fff;
+  width: 100%;
+}
+
+.btn-danger {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.btn-outline {
+  background: #fff;
+  color: #0d9488;
+  border: 1px solid #0d9488;
+}
+
+/* ===== 错误/成功提示 ===== */
+.alert {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.alert-error {
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  color: #cf1322;
+}
+
+.alert-success {
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  color: #389e0d;
+}
+
+.alert-info {
+  background: #e6f7ff;
+  border: 1px solid #91d5ff;
+  color: #096dd9;
+}
+
+/* ===== 用户信息列表 ===== */
+.info-list {
+  list-style: none;
+  margin: 20px 0;
+}
+
+.info-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-list li:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #555;
+}
+
+.info-value {
+  color: #333;
+}
+
+.password-masked {
+  color: #0d9488;
+  letter-spacing: 3px;
+  font-size: 18px;
+}
+
+/* ===== 欢迎信息 ===== */
+.welcome-title {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.welcome-sub {
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* ===== 未登录提示 ===== */
+.guest-box {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.guest-box p {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 24px;
+}
+
+/* ===== 按钮组 ===== */
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* ===== 安全标识 ===== */
+.security-badge {
+  text-align: center;
+  padding: 10px;
+  margin: 16px 0;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  border-radius: 6px;
+  color: #389e0d;
+  font-size: 13px;
+}
+
+/* ===== 登录页安全提示 ===== */
+.login-note {
+  margin-top: 24px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.login-note p {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.login-note ul {
+  list-style: none;
+  font-size: 13px;
+  color: #666;
+}
+
+.login-note ul li {
+  padding: 2px 0;
+}
+
+/* ===== 密码规则提示 ===== */
+.password-rules {
+  margin-top: 20px;
+  padding: 14px;
+  background: #fff8e1;
+  border-radius: 8px;
+  border: 1px solid #ffe082;
+}
+
+.password-rules p {
+  font-size: 13px;
+  font-weight: 600;
+  color: #795548;
+  margin-bottom: 6px;
+}
+
+.password-rules ul {
+  list-style: none;
+  font-size: 12px;
+  color: #8d6e63;
+}
+
+.password-rules ul li {
+  padding: 2px 0;
+}
+
+.password-rules ul li::before {
+  content: "• ";
+}
+
+/* ===== 页脚 ===== */
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 12px;
+  color: #999;
+  border-top: 1px solid #e9ecef;
+  margin-top: auto;
+}
