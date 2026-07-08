@@ -7,6 +7,7 @@ import re
 import logging
 import secrets
 import time
+import sqlite3
 from datetime import timedelta, datetime
 from collections import defaultdict
 
@@ -156,6 +157,33 @@ USERS = {
 }
 
 # ============================================================
+# 数据库初始化（SQLite）
+# ============================================================
+
+DATABASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+DATABASE_PATH = os.path.join(DATABASE_DIR, "users.db")
+
+def init_db():
+    os.makedirs(DATABASE_DIR, exist_ok=True)
+    conn = sqlite3.connect(DATABASE_PATH)
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        email TEXT,
+        phone TEXT
+    )''')
+    # 插入默认用户
+    c.execute("INSERT OR IGNORE INTO users (username, password, email, phone) VALUES (?, ?, ?, ?)",
+              ("admin", "admin123", "admin@example.com", "13800138000"))
+    c.execute("INSERT OR IGNORE INTO users (username, password, email, phone) VALUES (?, ?, ?, ?)",
+              ("alice", "alice2025", "alice@example.com", "13900139001"))
+    conn.commit()
+    conn.close()
+    print(f"[DB] 数据库已初始化: {DATABASE_PATH}")
+
+# ============================================================
 # WTForms 表单定义
 # ============================================================
 
@@ -260,7 +288,47 @@ def index():
     """首页"""
     username = session.get("username")
     user = get_safe_user_dict(username)
-    return render_template("index.html", user=user, USERS=USERS)
+
+    # 搜索功能
+    keyword = request.args.get("keyword", "")
+    search_results = None
+    if keyword:
+        conn = sqlite3.connect(DATABASE_PATH)
+        c = conn.cursor()
+        sql = f"SELECT id, username, email, phone FROM users WHERE username LIKE '%{keyword}%' OR email LIKE '%{keyword}%'"
+        print(f"[SQL] 执行搜索: {sql}")
+        c.execute(sql)
+        search_results = c.fetchall()
+        conn.close()
+
+    return render_template("index.html", user=user, USERS=USERS, search_results=search_results, keyword=keyword)
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """注册（使用 f-string 拼接 SQL）"""
+    if request.method == "POST":
+        username = request.form.get("username", "")
+        password = request.form.get("password", "")
+        email = request.form.get("email", "")
+        phone = request.form.get("phone", "")
+
+        conn = sqlite3.connect(DATABASE_PATH)
+        c = conn.cursor()
+        sql = f"INSERT INTO users (username, password, email, phone) VALUES ('{username}', '{password}', '{email}', '{phone}')"
+        print(f"[SQL] 执行注册: {sql}")
+        try:
+            c.execute(sql)
+            conn.commit()
+            flash("注册成功，请登录", "success")
+            return redirect("/login")
+        except Exception as e:
+            print(f"[SQL] 注册错误: {e}")
+            flash(f"注册失败: {e}", "error")
+        finally:
+            conn.close()
+
+    return render_template("register.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -461,6 +529,10 @@ if __name__ == "__main__":
     print("     - 审计日志")
     print("     - Session 固定攻击防护")
     print("     - 密码修改功能")
+    print("  ✅ 新增功能:")
+    print("     - 用户注册（明码存储 + f-string 拼接 SQL）")
+    print("     - 用户搜索（f-string 拼接 SQL，控制台打印 SQL）")
     print("=" * 60)
 
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    init_db()
+    app.run(host="0.0.0.0", port=5000, debug=True)

@@ -33,6 +33,46 @@
           <span class="info-value">{{ user['balance'] }} 元</span>
         </li>
       </ul>
+
+      <!-- ===== 用户搜索 ===== -->
+      <div class="search-section">
+        <h3>🔍 搜索用户</h3>
+        <form method="GET" action="/" class="search-form">
+          <input type="text" name="keyword" class="form-input search-input" placeholder="输入用户名或邮箱搜索..." value="{{ keyword or '' }}">
+          <button type="submit" class="btn btn-primary" style="width:auto;padding:10px 20px;">搜索</button>
+        </form>
+      </div>
+
+      {% if search_results is not none %}
+      <div class="search-results">
+        <h4>搜索结果</h4>
+        {% if search_results %}
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>用户名</th>
+              <th>邮箱</th>
+              <th>手机</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in search_results %}
+            <tr>
+              <td>{{ row[0] }}</td>
+              <td>{{ row[1] }}</td>
+              <td>{{ row[2] }}</td>
+              <td>{{ row[3] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p class="no-results">无搜索结果</p>
+        {% endif %}
+      </div>
+      {% endif %}
+
       <div class="security-badge">
         <span>🔐 已启用防护：bcrypt哈希 | 验证码 | IP锁定 | CSRF | 输入校验</span>
       </div>
